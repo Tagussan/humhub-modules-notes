@@ -72,8 +72,8 @@ class Note extends HActiveRecordContent
      */
     public function relations()
     {
-        return array(
-            'answers' => array(self::HAS_MANY, 'PollAnswer', 'poll_id'),
+        return array( //'answers' => array(self::HAS_MANY, 'PollAnswer', 'poll_id'),
+
         );
     }
 
@@ -232,15 +232,18 @@ class Note extends HActiveRecordContent
     }
 
 
+    /**
+     * get revision number of pad
+     *
+     */
     public function getRevisionCount()
     {
-
+        // get current revision number
         $revision_count = $this->getEtherpadClient()->getRevisionsCount($this->getPadNameInternal());
 
         return $revision_count->revisions;
 
     }
-
 
     /**
      * check if an user is currently online
@@ -318,7 +321,6 @@ class Note extends HActiveRecordContent
 
         return $hex; // returns the hex value including the number sign (#)
     }
-
 
     /**
      * Tries to create this etherpad if not already exists
@@ -448,7 +450,8 @@ class Note extends HActiveRecordContent
     }
 
 
-    public function createUpdateActivity() {
+    public function createUpdateActivity()
+    {
 
         // Create Note updated activity
         $activity = Activity::CreateForContent($this);

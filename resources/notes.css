@@ -2,33 +2,18 @@
     border: none;
 }
 
-.notes-sticker {
-    position: relative;
-    border: 1px solid #cecece;
-    background-color: #ffffff;
-    padding: 31px 10px 30px 45px;
-    margin: 20px 10px 0 0;
-    line-height: 2.3em;
-    background-image: url('notes_bg.png');
-    box-shadow: 1px 1px 3px #dedede;
-    -webkit-box-shadow: 1px 1px 3px #dedede;
-    -moz-box-shadow: 1px 1px 3px #dedede;
+.note-entry {
+    margin-top: 15px !important;
 }
 
-.notes-sticker .notes-stripe {
-    position: absolute;
-    background-image: url('stripe.png');
-    width: 84px;
-    height: 29px;
-    top: -15px;
-    left: 50%;
-    margin-left: -40px;
+.note-entry .media-heading {
+    font-weight: 200 !important;
+    font-size: 18px !important;
 }
 
-.notes-sticker .notes-title {
-    font-weight: 300;
-    font-size: 16px;
-    color: #bebebe;
+.btn-notes {
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .note-editor {
@@ -44,4 +29,15 @@
     height: 11px;
     border-radius: 10px;
     border: 2px solid #fff;
+}
+
+#note_content {
+    position: relative;
+}
+
+#note_content #view-mode {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
 }

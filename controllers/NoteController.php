@@ -3,7 +3,8 @@
 class NoteController extends Controller
 {
 
-    public $subLayout = "_layout";
+    //public $subLayout = "_layout";
+    public $subLayout = "application.modules_core.space.views.space._layout";
 
     /**
      * @return array action filters
@@ -64,9 +65,19 @@ class NoteController extends Controller
     /**
      * Shows the questions tab
      */
-    public function actionShow()
+    public function actionList()
     {
-        $this->render('show');
+        // load all notes
+        $notes = Note::model()->findAll(array('order'=>'created_at DESC'));
+
+        $this->render('list', array('notes' => $notes));
+    }
+
+    public function actionGetComments() {
+
+        $id = Yii::app()->request->getParam('id');
+
+        $this->renderPartial('comments', array('id' => $id));
     }
 
     /**
@@ -149,6 +160,7 @@ class NoteController extends Controller
         // get note id and load from database
         $id = (int)Yii::app()->request->getParam('id', 0);
         $note = Note::model()->findByPk($id);
+        $history = Yii::app()->request->getParam('history');
 
         // get current revision count
         $revisionCountNow = $note->getRevisionCount();
@@ -159,6 +171,9 @@ class NoteController extends Controller
         // match revisions
         if ($revisionCountNow != $revisionCountByOpening) {
 
+            $note->updated_by = Yii::app()->user->id;
+            $note->save();
+
             // create activity
             $note->createUpdateActivity();
 
@@ -166,9 +181,14 @@ class NoteController extends Controller
             $note->notifyUserForUpdates();
 
         }
-        // Redirect to the the space
-        $this->htmlRedirect($this->createUrl('//space/space', array('sguid' => Yii::app()->request->getParam('guid'))));
-        //echo "Juhu";
+
+        // check if a history url was provided
+        if ($history == null) {
+            $history = "//space/space";
+        }
+
+        // Redirect to the the stream or notes view
+        $this->htmlRedirect($this->createUrl($history, array('sguid' => Yii::app()->request->getParam('guid'))));
 
     }
 

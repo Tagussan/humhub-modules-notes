@@ -2,6 +2,11 @@
 
     <div class="panel-heading"><?php echo $note->title; ?></div>
 
+    <div id="view-mode">
+        <i class="icon-resize-full"></i>
+    </div>
+
+
     <!-- iframe container for etherpad -->
     <iframe id="note" src="<?php echo $padUrl; ?>" height="400" width="100%"></iframe>
 
@@ -25,7 +30,7 @@
 
     <hr>
     <div class="panel-body">
-        <a href="<?php echo Yii::app()->createUrl('notes/note/edit', array('id' => $note->id, 'revision' => $revision, 'guid' => Yii::app()->request->getParam('guid'))); ?>"
+        <a href="<?php echo Yii::app()->createUrl('notes/note/edit', array('id' => $note->id, 'revision' => $revision, 'guid' => Yii::app()->request->getParam('guid'), 'history' => Yii::app()->request->getParam('history'))); ?>"
            class="btn btn-primary"><?php echo Yii::t('NotesModule.base', 'Save and close'); ?></a>
     </div>
 
@@ -49,6 +54,48 @@
         $('#note').css('height', window.innerHeight - 380 + 'px');
 
     }
+
+    var viewMode = 0;
+
+    $('#view-mode').click(function() {
+
+        if (viewMode == 0) {
+
+            // hide the left and right sidebar
+            $('.space-sidebar-container').hide();
+            $('.space-nav-container').hide();
+
+            // change the width note content
+            $('#note_content').parent().removeClass('col-md-7');
+            $('#note_content').parent().addClass('col-md-12');
+
+            // change view mode icon
+            $('#view-mode i').removeClass('icon-resize-full');
+            $('#view-mode i').addClass('icon-resize-small');
+
+            // update the current view mode
+            viewMode = 1;
+        } else {
+
+            // change the width note content
+            $('#note_content').parent().removeClass('col-md-12');
+            $('#note_content').parent().addClass('col-md-7');
+
+            // change view mode icon
+            $('#view-mode i').removeClass('icon-resize-small');
+            $('#view-mode i').addClass('icon-resize-full');
+
+            // show the left and right sidebar
+            $('.space-sidebar-container').show();
+            $('.space-nav-container').show();
+
+            // reset the current view mode
+            viewMode = 0;
+
+        }
+
+
+    })
 
 
 </script>
